@@ -1,35 +1,56 @@
-Role Name
-=========
+OPNsense: Gateway
+=================
 
-A brief description of the role goes here.
+An Ansible role to configure gateways on an opnSense firewall. 
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role requires the `lxml` python package to be installed on the host system.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+|             Variable             |  Type  |                             Description                             |
+| :------------------------------: | :----: | :-----------------------------------------------------------------: |
+|    opnsense_gateway_interface    | string |             The interface this gateway is connected to              |
+|      opnsense_gateway_name       | string |                    Unique name for this gateway                     |
+|   opnsense_gateway_description   | string |                 Optional description for this item                  |
+|     opnsense_gateway_default     |  bool  |              Whether or not this is a default gateway               |
+|   opnsense_gateway_ip_protocol   | string |                        IP family (v4 or v6)                         |
+|     opnsense_gateway_ip_addr     | string |  Address of our gateway, empty/dynamic when dynamically generated.  |
+| opnsense_gateway_monitor_disable |  bool  |                Disable monitoring (consider online)                 |
+|    opnsense_gateway_interval     |  int   | For multi WAN. How often that an ICMP probe will be sent in seconds |
+|     opnsense_gateway_weight      |  int   |  For multi WAN, to assign more/less traffic to a specific gateway   |
+
+- Resources:
+  - https://docs.opnsense.org/manual/gateways.html
+  - https://docs.opnsense.org/manual/how-tos/multiwan.html
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+N/A.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
 ```yaml
-- hosts: all
+- name: Configure the default gateway on all firewalls
+  hosts: opnsense
 
   roles:
-    - role: mirceanton.template
+    - role: mirceanton.opnsense_gateway
       vars:
-        foo: bar
+        opnsense_gateway_interface: wan
+        opnsense_gateway_name: WAN_GW
+        opnsense_gateway_description: Interface WAN Gateway
+        opnsense_gateway_default: true
+        opnsense_gateway_ip_protocol: inet
+        opnsense_gateway_ip_addr: "192.168.10.1"
+        opnsense_gateway_monitor_disable: true
+        opnsense_gateway_interval: 1
+        opnsense_gateway_weight: 1
 ```
 
 License
