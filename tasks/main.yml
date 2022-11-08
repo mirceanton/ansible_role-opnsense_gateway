@@ -9,3 +9,6 @@
   delegate_to: localhost
   notify: Upload config
   ansible.builtin.import_tasks: config.yml
+
+- name: Flush Handlers
+  ansible.builtin.meta: flush_handlers
