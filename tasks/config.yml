@@ -1,0 +1,64 @@
+---
+- name: Set Interface
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/interface"
+    value: "{{ opnsense_gateway_interface }}"
+
+- name: Set Name
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/name"
+    value: "{{ opnsense_gateway_name }}"
+
+- name: Set Description
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/descr"
+    value: "{{ opnsense_gateway_description }}"
+  when: opnsense_gateway_description is defined
+
+- name: Set as Default
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/defaultgw"
+    value: "{{ '1' if opnsense_gateway_default else '0' }}"
+
+- name: Set IP Protocol
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/ipprotocol"
+    value: "{{ opnsense_gateway_ip_protocol | default('inet') }}"
+
+- name: Set IP Address
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/gateway"
+    value: "{{ opnsense_gateway_ip_addr }}"
+
+- name: Disable Monitor
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/monitor_disable"
+    value: "{{ '1' if opnsense_gateway_monitor_disable else '0' }}"
+
+- name: Set Interval
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/interval"
+    value: "{{ opnsense_gateway_interval | default('1') }}"
+
+- name: Set Weight
+  community.general.xml:
+    pretty_print: true
+    path: "{{ local_file }}"
+    xpath: "{{ xpath }}/weight"
+    value: "{{ opnsense_gateway_weight | default('1') }}"
