@@ -2,7 +2,7 @@ galaxy_info:
   author: Mircea-Pavel ANTON
   namespace: mirceanton
   role_name: opnsense_gateway
-  description: An Ansible role to configure the default gateway on an opnSense firewall.
+  description: An Ansible role to configure the gateways on an opnSense firewall.
   company: mirceanton
 
   license: license (MIT)
